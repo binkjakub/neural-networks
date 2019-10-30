@@ -10,11 +10,11 @@ class MeanSquaredError(Module):
 
     def forward(self, y_true, y_pred):
         self.delta = y_true - y_pred
-        return 0.5 * np.mean(np.square(self.delta), axis=1)
+        return 0.5 * np.mean(np.square(self.delta), axis=0)
 
     def backward(self, upstream_gradients):
         assert self.delta is not None
-        return upstream_gradients * np.mean(self.delta)
+        return upstream_gradients * self.delta
 
 
 class CrossEntropyLoss(Module):

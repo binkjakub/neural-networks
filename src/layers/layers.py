@@ -22,14 +22,14 @@ class LinearLayer(Module):
         return self.z
 
     def backward(self, upstream_gradient):
-        self.da_prev = np.dot(self.weights, upstream_gradient.T)
-        self.dW = np.dot(self.da_prev, upstream_gradient)
+        self.dW = np.dot(upstream_gradient.T, self.prev_activation).T
+        self.db = np.sum(upstream_gradient, axis=0, keepdims=True)
 
-        self.db = np.sum(upstream_gradient, axis=0)
+        self.da_prev = np.dot(upstream_gradient, self.weights.T)
 
         # auto update
-        self.weights = self.weights - 0.01 * self.dW
-        self.bias = self.bias - 0.01 * self.db
+        self.weights = self.weights - 1 * self.dW
+        self.bias = self.bias - 1 * self.db
         return self.da_prev
 
     def _init_weights(self, method):

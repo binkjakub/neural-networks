@@ -25,7 +25,7 @@ class Sigmoid(Module):
 
     def backward(self, upstream_grad):
         assert self.activation is not None
-        self.dZ = upstream_grad.T * self.activation * (1 - self.activation)
+        self.dZ = upstream_grad * self.activation * (1 - self.activation)
         return self.dZ
 
 
@@ -39,5 +39,9 @@ class Softmax(Module):
         return self.activation
 
     def backward(self, upstream_grad):
-        softmax_grad = (self.activation * (1. - self.activation))
-        return upstream_grad * softmax_grad
+        signal = self.activation
+        J = - signal[..., None] * signal[:, None, :]  # off-diagonal Jacobian
+        iy, ix = np.diag_indices_from(J[0])
+        J[:, iy, ix] = signal * (1. - signal)  # diagonal
+        grad = J.sum(axis=1)
+        return upstream_grad * grad

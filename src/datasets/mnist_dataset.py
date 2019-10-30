@@ -11,6 +11,7 @@ def batch_data(x, y, batch_size):
     while batch_end < len(x):
         batch_start = current_batch * batch_size
         batch_end = min(batch_start + batch_size, len(x))
+        current_batch += 1
         yield x[batch_start:batch_end], y[batch_start:batch_end]
 
 
