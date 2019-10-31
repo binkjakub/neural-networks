@@ -10,8 +10,12 @@ class Module(ABC):
 
     @abstractmethod
     def forward(self, *args, **kwargs):
-        pass
+        return
 
     @abstractmethod
     def backward(self, upstream_gradients):
-        pass
+        return
+
+    @abstractmethod
+    def parameters(self):
+        return

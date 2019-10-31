@@ -12,28 +12,17 @@ class LinearLayer(Module):
         self.prev_activation = None
         self.z = None
 
-        self.dW = None
-        self.db = None
-        self.da_prev = None
-        self.last_vW = np.zeros(shape=self.weights.shape)
-        self.last_vb = np.zeros(shape=self.bias.shape)
-
     def forward(self, x):
         self.prev_activation = x
-        self.z = np.dot(self.weights, self.prev_activation) + self.bias
+        self.z = np.dot(self.weights.val, self.prev_activation) + self.bias.val
         return self.z
 
     def backward(self, upstream_gradient):
-        self.dW = np.dot(upstream_gradient, self.prev_activation.T)
-        self.db = np.sum(upstream_gradient, axis=1, keepdims=True)
+        self.weights.grad = np.dot(upstream_gradient, self.prev_activation.T)
+        self.bias.grad = np.sum(upstream_gradient, axis=1, keepdims=True)
 
-        self.da_prev = np.dot(self.weights.T, upstream_gradient)
+        grad_act_prev = np.dot(self.weights.val.T, upstream_gradient)
+        return grad_act_prev
 
-        # auto update
-        lr = 0.01
-        vW = 0.9 * self.last_vW + lr * self.dW
-        vb = 0.9 * self.last_vb + lr * self.db
-        self.weights = self.weights - vW
-        self.bias = self.bias - vb
-
-        return self.da_prev
+    def parameters(self):
+        return [self.weights, self.bias]

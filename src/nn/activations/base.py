@@ -8,3 +8,6 @@ class Activation(Module, ABC):
         super().__init__()
         self.activation = None
         self.dZ = None
+
+    def parameters(self):
+        return None

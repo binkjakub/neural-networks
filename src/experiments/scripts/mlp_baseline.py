@@ -4,14 +4,17 @@ from sklearn.metrics.classification import accuracy_score
 from settings import DATA_PATH
 from src.data_processing.io import load_mnist
 from src.datasets.mnist_dataset import batch_data
-from src.nn.layers.initializers import XAVIER, RANDOM_NORMAL
+from src.nn.layers.initializers import XAVIER
 from src.nn.losses.mse import MeanSquaredError
 from src.nn.networks.mlp import MultiLayerPerceptron
+from src.nn.optimizers.sgd import SGD, Momentum
 from src.utils.data_utils import to_one_hot
 
-model = MultiLayerPerceptron(784, 10, RANDOM_NORMAL)
+model = MultiLayerPerceptron(784, 10, XAVIER)
 loss = MeanSquaredError()
-batch_size = 64
+learning_rate = 0.1
+optimizer = Momentum(model.parameters(), learning_rate, 0.9)
+batch_size = 256
 epochs = 50
 
 train, val, test = load_mnist(DATA_PATH)
@@ -27,6 +30,7 @@ for epoch in range(epochs):
 
         loss_grad = loss.backward()
         model.backward(loss_grad)
+        optimizer.step()
 
     train_output = model.forward(train_set[0].T)
     val_output = model.forward(val[0].T)

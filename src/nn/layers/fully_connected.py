@@ -17,3 +17,6 @@ class FullyConnected(Module):
         dZ = self.activation.backward(upstream_gradients)
         dA = self.linear.backward(dZ)
         return dA
+
+    def parameters(self):
+        return self.linear.parameters()
