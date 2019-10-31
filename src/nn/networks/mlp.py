@@ -1,6 +1,7 @@
-from src.layers.activations import Softmax, Sigmoid
-from src.layers.layers import (FullyConnected)
-from src.layers.module import Module
+from src.nn.activations.sigmoid import Sigmoid
+# from src.nn.activations.softmax import Softmax
+from src.nn.layers.fully_connected import (FullyConnected)
+from src.nn.module import Module
 
 
 class MultiLayerPerceptron(Module):
@@ -12,14 +13,14 @@ class MultiLayerPerceptron(Module):
 
         self.output = FullyConnected(in_shape=256,
                                      out_shape=output_shape,
-                                     activation=Softmax())
+                                     activation=Sigmoid())
 
     def forward(self, x):
-        result = self.hidden.forward(x)
+        result = self.hidden.forward(x.T)
         result = self.output.forward(result)
         return result
 
     def backward(self, upstream_gradients):
-        da_prev = self.output.backward(upstream_gradients)
-        self.hidden.backward(da_prev)
-        return None
+        out_grad = self.output.backward(upstream_gradients)
+        out_grad = self.hidden.backward(out_grad)
+        return out_grad
