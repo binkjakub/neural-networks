@@ -5,20 +5,37 @@ This code was prepared for neural network classes at Wroclaw University of Scien
 At the current state, implementation supports:
 1. Architectures
     - [Multilayer Perceptron](src/nn/networks/mlp.py)
+    - [Convolutaional Neural Network (CNN)]
+   
+1. Layers
+    - [Linear](src/nn/layers/linear.py)
+    - [Conv2d]
+    - [MaxPool2d]
     
-2. Activations
-    - [Sigmoid](src/nn/activations/sigmoid.py)
+1. Activations
+    - [Sigmoid](src/nn/activations/hidden_activations.py)
+    - [TanH](src/nn/activations/hidden_activations.py)
+    - [ReLu](src/nn/activations/hidden_activations.py)
     - [Softmax](src/nn/activations/softmax.py)
     
-3. Losses
+    
+1. Losses
     - [Mean Squared Error](src/nn/losses/mse.py)
     - [Cross Entropy](src/nn/losses/cross_entropy.py)
+    - [Cross Entropy Logit Loss]
     
-4. Optimizers:
-    - Stochastic Gradient Descent
+1. Optimizers:
+    - [Stochastic Gradient Descent (SGD)]
+    - [Momentum]
+    - [Adagrad]
+    - [Adadelta]
+    - [RMSprop]
+    - [ADAM]
     
-5. Initializers:
-    - Random Normal
+1. Initializers:
+    - [Random Normal](src/nn/layers/initializers.py)
+    - [Xavier](src/nn/layers/initializers.py)
+    - [He](src/nn/layers/initializers.py)
 
 NOTE:
 *It is possible to easly extend architectures by composing existing layers or implement new ones.* 
@@ -37,7 +54,6 @@ Under the scope of this project several study experiments on
 │   ├── datasets
 │   ├── experiments
 │   │   └── scripts
-│   ├── learning
 │   ├── nn
 │   │   ├── activations
 │   │   ├── layers
@@ -46,3 +62,5 @@ Under the scope of this project several study experiments on
 │   └── utils
 └── tests
 ```
+---
+Author: Jakub Binkowski

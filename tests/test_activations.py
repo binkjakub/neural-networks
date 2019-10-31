@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from src.nn.activations import Sigmoid
+from src.nn.activations.hidden_activations import Sigmoid
 
 
 class TestActivationFunctions(unittest.TestCase):

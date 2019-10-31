@@ -1,13 +1,13 @@
 import numpy as np
 
+from src.nn.layers.initializers import init_parameters
 from src.nn.module import Module
 
 
 class LinearLayer(Module):
-    def __init__(self, in_shape, out_shape):
+    def __init__(self, in_dim, out_dim, initializer=None):
         super().__init__()
-        self.weights = np.random.normal(scale=0.1, size=[out_shape, in_shape])
-        self.bias = np.ones(shape=[out_shape, 1])
+        self.weights, self.bias = init_parameters(in_dim, out_dim, initializer)
 
         self.prev_activation = None
         self.z = None
@@ -15,6 +15,8 @@ class LinearLayer(Module):
         self.dW = None
         self.db = None
         self.da_prev = None
+        self.last_vW = np.zeros(shape=self.weights.shape)
+        self.last_vb = np.zeros(shape=self.bias.shape)
 
     def forward(self, x):
         self.prev_activation = x
@@ -28,10 +30,10 @@ class LinearLayer(Module):
         self.da_prev = np.dot(self.weights.T, upstream_gradient)
 
         # auto update
-        lr = 2
-        self.weights = self.weights - lr * self.dW
-        self.bias = self.bias - lr * self.db
-        return self.da_prev
+        lr = 0.01
+        vW = 0.9 * self.last_vW + lr * self.dW
+        vb = 0.9 * self.last_vb + lr * self.db
+        self.weights = self.weights - vW
+        self.bias = self.bias - vb
 
-    def _init_weights(self, method):
-        pass
+        return self.da_prev

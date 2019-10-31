@@ -12,6 +12,6 @@ class MeanSquaredError(Module):
         self.delta = y_true - y_pred
         return 0.5 * np.mean(np.square(self.delta))
 
-    def backward(self, upstream_gradients):
+    def backward(self, upstream_gradients=1):
         assert self.delta is not None
-        return upstream_gradients * self.delta
+        return upstream_gradients * (-1 / self.delta.shape[1]) * self.delta
