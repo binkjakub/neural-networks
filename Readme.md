@@ -21,8 +21,8 @@ At the current state, implementation supports (linked modules):
     
 1. Losses
     - [Mean Squared Error](src/nn/losses/mse.py)
-    - [Cross Entropy *(partially)*](src/nn/losses/cross_entropy.py)
-    - [Cross Entropy Logit Loss]
+    - [Cross Entropy *(feed forward only)*](src/nn/losses/cross_entropy.py)
+    - [Softmax With partiallyCross Entropy Logit Loss](src/nn/losses/cross_entropy.py)
     
 1. Optimizers:
     - [Stochastic Gradient Descent (SGD)](src/nn/optimizers/sgd.py)
