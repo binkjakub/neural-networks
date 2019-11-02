@@ -4,19 +4,21 @@ from settings import MNIST_PATH
 from src.data_processing.io import load_mnist
 from src.datasets.mnist_dataset import batch_data
 from src.metrics.classficiation import accuracy
-from src.nn.layers.initializers import XAVIER
 from src.nn.losses.cross_entropy import CrossEntropyWithLogitLoss
-from src.nn.losses.mse import MeanSquaredError
 from src.nn.networks.mlp import MultiLayerPerceptron
 from src.nn.optimizers.sgd import Momentum
 from src.utils.data_utils import to_one_hot
 
-initializer = XAVIER
-model = MultiLayerPerceptron(784, 10, initializer)
+model = MultiLayerPerceptron(input_dim=784,
+                             output_dim=10,
+                             hidden_sizes=[1024, 512],
+                             hidden_activation='relu',
+                             output_activation='identity',
+                             initializer='plain')
 loss = CrossEntropyWithLogitLoss()
 learning_rate = 0.1
 optimizer = Momentum(model.parameters(), learning_rate, 0)
-batch_size = 256
+batch_size = 50
 epochs = 50
 
 train, val, test = load_mnist(MNIST_PATH)

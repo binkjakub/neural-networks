@@ -3,9 +3,9 @@ from src.nn.module import Module
 
 
 class FullyConnected(Module):
-    def __init__(self, in_shape, out_shape, activation, initializer):
+    def __init__(self, in_dim, out_dim, activation, initializer):
         super().__init__()
-        self.linear = LinearLayer(in_shape, out_shape, initializer)
+        self.linear = LinearLayer(in_dim, out_dim, initializer)
         self.activation = activation
 
     def forward(self, x):
