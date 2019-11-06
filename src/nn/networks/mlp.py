@@ -24,6 +24,10 @@ class MultiLayerPerceptron(Module):
                                      initializer=initializer
                                      if output_initializer is None else output_initializer)
 
+    def change_hidden_activation(self, activation_name):
+        for hidden in self.hidden_layers:
+            hidden.activation = get_activation(activation_name)
+
     def forward(self, x):
         for h in self.hidden_layers:
             x = h.forward(x)

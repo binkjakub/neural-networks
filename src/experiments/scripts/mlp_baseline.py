@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 
 from settings import MNIST_PATH
 from src.data_processing.io import load_mnist
@@ -11,15 +12,18 @@ from src.utils.data_utils import to_one_hot
 
 model = MultiLayerPerceptron(input_dim=784,
                              output_dim=10,
-                             hidden_sizes=[1024, 512],
+                             hidden_sizes=[64],
                              hidden_activation='relu',
                              output_activation='identity',
-                             initializer='plain')
+                             initializer='he',
+                             output_initializer='plain')
+
 loss = CrossEntropyWithLogitLoss()
-learning_rate = 0.1
-optimizer = Momentum(model.parameters(), learning_rate, 0)
+learning_rate = 1e-2
+momentum = 0.9
+optimizer = Momentum(model.parameters(), learning_rate, momentum)
 batch_size = 50
-epochs = 50
+epochs = 100
 
 train, val, test = load_mnist(MNIST_PATH)
 
