@@ -1,5 +1,4 @@
 import numpy as np
-from tqdm import tqdm
 
 from settings import MNIST_PATH
 from src.data_processing.io import load_mnist
@@ -7,21 +6,26 @@ from src.datasets.mnist_dataset import batch_data
 from src.metrics.classficiation import accuracy
 from src.nn.losses.cross_entropy import CrossEntropyWithLogitLoss
 from src.nn.networks.mlp import MultiLayerPerceptron
+from src.nn.optimizers import Adagrad
+from src.nn.optimizers.Adadelta import AdadeltaOptimizer
+from src.nn.optimizers.Adagrad import AdagradOptimizer
 from src.nn.optimizers.sgd import Momentum
 from src.utils.data_utils import to_one_hot
 
 model = MultiLayerPerceptron(input_dim=784,
                              output_dim=10,
-                             hidden_sizes=[64],
+                             hidden_sizes=[64, 32],
                              hidden_activation='relu',
                              output_activation='identity',
-                             initializer='he',
+                             initializer='xavier',
                              output_initializer='plain')
 
 loss = CrossEntropyWithLogitLoss()
-learning_rate = 1e-2
+learning_rate = 1e-2  # e-4
 momentum = 0.9
-optimizer = Momentum(model.parameters(), learning_rate, momentum)
+# optimizer = Momentum(model.parameters(), learning_rate, momentum)
+# optimizer = AdagradOptimizer(model.parameters(), learning_rate)
+optimizer = AdadeltaOptimizer(model.parameters(), learning_rate)
 batch_size = 50
 epochs = 100
 
