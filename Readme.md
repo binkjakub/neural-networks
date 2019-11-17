@@ -27,11 +27,9 @@ At the current state, implementation supports (linked modules):
 1. Optimizers:
     - [Stochastic Gradient Descent (SGD)](src/nn/optimizers/sgd.py)
     - [Momentum](src/nn/optimizers/sgd.py)
-    - [Nesterov]
-    - [Adagrad]
-    - [Adadelta]
-    - [RMSprop]
-    - [ADAM]
+    - [Adagrad](src/nn/optimizers/adagrad.py)
+    - [Adadelta](src/nn/optimizers/adadelta.py)
+    - [ADAM](src/nn/optimizers/adam.py)
     
 1. Initializers:
     - [Random Normal](src/nn/layers/initializers.py)
@@ -39,7 +37,7 @@ At the current state, implementation supports (linked modules):
     - [He](src/nn/layers/initializers.py)
 
 NOTE:
-*It is possible to easly extend architectures by composing existing layers or implement new ones.* 
+*It is possible to easly extend or add architectures by composing existing layers or implement new ones.* 
 ## Implementation details 
 Implementation utilizes OOP and computational graph approach (with manual gradient flow) 
 and was inspired by article: 
@@ -51,20 +49,25 @@ were implemented.
 
 ### Project structure
 ```
-├── src
-│   ├── data_processing
-│   │   ├── notebooks
-│   │   └── scripts
-│   ├── datasets
-│   ├── experiments
-│   │   └── scripts
-│   ├── nn
-│   │   ├── activations
-│   │   ├── layers
-│   │   ├── losses
-│   │   └── networks
-│   └── utils
-└── tests
+└── src
+    ├── data_processing
+    │   ├── notebooks
+    │   └── scripts
+    ├── datasets
+    ├── experiments
+    │   ├── notebooks
+    │   ├── one_hidden_mnist
+    │   ├── optimizers_mnist
+    │   └── scripts
+    ├── metrics
+    ├── nn
+    │   ├── activations
+    │   ├── layers
+    │   ├── losses
+    │   ├── networks
+    │   └── optimizers
+    └── utils
+
 ```
 ---
 Author: Jakub Binkowski

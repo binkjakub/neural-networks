@@ -16,9 +16,10 @@ class Momentum(SGD):
     def __init__(self, parameters, learning_rate, momentum):
         super().__init__(parameters, learning_rate)
         self.momentum = momentum
-        self.last_grads = [param.grad for param in self.parameters]
+        self.past_update = [param.grad for param in self.parameters]
 
     def step(self):
-        for param, last_grad in zip(self.parameters, self.last_grads):
-            v_param = self.momentum * last_grad + self.learning_rate * param.grad
+        for idx, param in enumerate(self.parameters):
+            v_param = self.momentum * self.past_update[idx] + self.learning_rate * param.grad
+            self.past_update[idx] = v_param
             param.val = param.val - v_param

@@ -20,11 +20,8 @@ class Softmax(Activation):
     def backward(self, upstream_gradient):
         assert self.activation is not None
         signal = self.activation
-        J = - signal[..., None] * signal[:, None, :]  # off-diagonal Jacobian
+        J = signal[..., None] * signal[:, None, :]  # off-diagonal Jacobian
         iy, ix = np.diag_indices_from(J[0])
         J[:, iy, ix] = signal * (1. - signal)  # diagonal
         self.dZ = J.sum(axis=1)
         return upstream_gradient * self.dZ
-
-    def backward(self, upstream_gradients):
-        dZ = self.activation[:, ]

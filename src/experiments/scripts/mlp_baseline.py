@@ -5,27 +5,29 @@ from src.data_processing.io import load_mnist
 from src.datasets.mnist_dataset import batch_data
 from src.metrics.classficiation import accuracy
 from src.nn.losses.cross_entropy import CrossEntropyWithLogitLoss
+from src.nn.losses.mse import MeanSquaredError
 from src.nn.networks.mlp import MultiLayerPerceptron
-from src.nn.optimizers import Adagrad
-from src.nn.optimizers.Adadelta import AdadeltaOptimizer
-from src.nn.optimizers.Adagrad import AdagradOptimizer
+from src.nn.optimizers.adadelta import AdadeltaOptimizer
+from src.nn.optimizers.adam import AdamOptimizer
 from src.nn.optimizers.sgd import Momentum
 from src.utils.data_utils import to_one_hot
 
 model = MultiLayerPerceptron(input_dim=784,
                              output_dim=10,
-                             hidden_sizes=[64, 32],
-                             hidden_activation='relu',
+                             hidden_sizes=[64],
+                             hidden_activation='sigmoid',
                              output_activation='identity',
                              initializer='xavier',
                              output_initializer='plain')
 
+# loss = MeanSquaredError()
 loss = CrossEntropyWithLogitLoss()
-learning_rate = 1e-2  # e-4
+learning_rate = 1e-3  # e-4
 momentum = 0.9
-# optimizer = Momentum(model.parameters(), learning_rate, momentum)
+optimizer = Momentum(model.parameters(), learning_rate, momentum)
 # optimizer = AdagradOptimizer(model.parameters(), learning_rate)
-optimizer = AdadeltaOptimizer(model.parameters(), learning_rate)
+# optimizer = AdadeltaOptimizer(model.parameters(), decay_rate=0.95)
+# optimizer = AdamOptimizer(model.parameters(), learning_rate=1e-3, beta_1=0.9, beta_2=0.999)
 batch_size = 50
 epochs = 100
 

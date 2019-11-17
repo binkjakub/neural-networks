@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 
 from settings import MNIST_PATH
 from src.data_processing.io import load_mnist
@@ -18,7 +19,7 @@ def train_mnist(learning_context, epochs=100, batch_size=64, repeat_context=0):
     # pre evaluation
     evaluate_multiple_models(learning_context, 0, repeat_context, learning_logs)
 
-    for epoch in range(1, epochs + 1):
+    for epoch in tqdm(range(1, epochs + 1), position=0):
         for x_train, y_train in batch_data(*train_set, batch_size):
             for name, context in learning_context.items():
                 model, loss, optimizer = context

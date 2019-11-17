@@ -1,11 +1,11 @@
-from tqdm import tqdm
+from tqdm import trange, tqdm
 
 from src.experiments.train_mnist import train_mnist
 
 
 def evaluate_mnist_experiment(context_getter, n_repeats):
     results = []
-    for i in tqdm(range(n_repeats)):
+    for i in trange(n_repeats):
         for context in context_getter():
             learning_context, batch_size, epochs = context
             results.append(train_mnist(learning_context,
